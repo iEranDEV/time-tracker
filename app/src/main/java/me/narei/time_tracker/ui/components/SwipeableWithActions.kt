@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,6 +24,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.IntOffset
 import kotlinx.coroutines.launch
+import me.narei.time_tracker.ui.theme.spacing
 import kotlin.math.roundToInt
 
 @Composable
@@ -46,7 +49,12 @@ fun SwipeableWithActions(
                 .onSizeChanged { contextMenuWidth = it.width.toFloat() },
             verticalAlignment = Alignment.CenterVertically
         ) {
-            actions()
+            Box(
+                modifier = Modifier
+                    .padding(start = MaterialTheme.spacing.medium)
+            ) {
+                actions()
+            }
         }
 
         Box(

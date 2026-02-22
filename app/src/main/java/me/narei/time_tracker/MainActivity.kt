@@ -12,11 +12,11 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import me.narei.time_tracker.ui.components.ActionButton
 import me.narei.time_tracker.ui.components.SwipeableWithActions
 import me.narei.time_tracker.ui.components.TimeEntryCard
 import me.narei.time_tracker.ui.theme.TimetrackerTheme
+import me.narei.time_tracker.ui.theme.spacing
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(innerPadding)
-                            .padding(12.dp)
+                            .padding(MaterialTheme.spacing.medium)
                     ) {
                         SwipeableWithActions(
                             content = {

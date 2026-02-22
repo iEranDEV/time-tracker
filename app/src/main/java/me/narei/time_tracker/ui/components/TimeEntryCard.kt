@@ -10,12 +10,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import me.narei.time_tracker.ui.theme.spacing
 
 @Composable
 fun TimeEntryCard(
@@ -24,13 +26,12 @@ fun TimeEntryCard(
 
     val cardShape = RoundedCornerShape(8.dp)
 
-
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .background(Color.Blue, cardShape)
+            .background(MaterialTheme.colorScheme.background, cardShape)
             .border(1.dp, Color.LightGray, cardShape)
-            .padding(12.dp)
+            .padding(MaterialTheme.spacing.medium)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
