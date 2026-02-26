@@ -24,7 +24,7 @@ fun ActionButton(
     IconButton(
         onClick = onClick,
         modifier = modifier
-            .background(backgroundColor, RoundedCornerShape(8.dp))
+            .background(backgroundColor, RoundedCornerShape(12.dp))
             .fillMaxHeight()
     ) {
         Icon(
