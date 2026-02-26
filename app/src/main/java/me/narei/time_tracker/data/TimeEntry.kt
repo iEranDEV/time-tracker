@@ -1,21 +1,15 @@
 package me.narei.time_tracker.data
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
 data class TimeEntry(
 
+    @PrimaryKey val id: Int,
     val name: String,
-    val startTime: Long,
-    val endTime: Long? = null,
+    @ColumnInfo(name = "start_time") val startTime: Long,
+    @ColumnInfo(name = "end_time") val endTime: Long? = null,
 
-) {
-
-    fun getDurationText(): String {
-        if (endTime == null) return ""
-
-        val diff = endTime - startTime
-        val hours = diff / 3600
-        val minutes = (diff % 3600) / 60
-
-        return "${hours}:${minutes.toString().padStart(2, '0')}h"
-    }
-
-}
+    )

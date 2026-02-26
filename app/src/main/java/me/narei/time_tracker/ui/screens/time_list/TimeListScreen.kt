@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -24,6 +23,7 @@ import me.narei.time_tracker.ui.components.TimeEntryCard
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.ui.Alignment
 import me.narei.time_tracker.ui.components.TimeEntryForm
 import me.narei.time_tracker.util.toLocalDateTime
@@ -44,7 +44,7 @@ fun TimeListScreen(
                 actions = {
                     IconButton( onClick = onNavigateToSettings ) {
                         Icon(
-                            imageVector = Icons.Default.Settings,
+                            imageVector = Icons.Rounded.Settings,
                             contentDescription = "Go to settings"
                         )
                     }
