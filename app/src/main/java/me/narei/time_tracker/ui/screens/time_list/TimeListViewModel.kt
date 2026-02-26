@@ -25,13 +25,11 @@ class TimeListViewModel : ViewModel() {
 
     private fun loadTimeEntries() {
         _timeEntries.value = listOf(
-            /*
             TimeEntry(
                 name = "Testowe zadanie",
                 startTime = 1772118000,
                 endTime = 1772119800
             )
-            */
         )
     }
 

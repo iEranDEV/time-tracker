@@ -47,7 +47,7 @@ fun TimeEntryCard(
     val durationText = remember(startTime, endTime) {
         val diff = Duration.between(startTime, endTime)
         val hours = diff.toHours()
-        val minutes = diff.toMinutesPart()
+        val minutes = diff.toMinutes()
 
         "${hours}:${minutes.toString().padStart(2, '0')}"
     }

@@ -25,6 +25,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import androidx.compose.foundation.lazy.items
 import androidx.compose.ui.Alignment
+import me.narei.time_tracker.ui.components.TimeEntryForm
 import me.narei.time_tracker.util.toLocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,6 +50,9 @@ fun TimeListScreen(
                     }
                 }
             )
+        },
+        bottomBar = {
+            TimeEntryForm()
         }
     ) { innerPadding ->
 
