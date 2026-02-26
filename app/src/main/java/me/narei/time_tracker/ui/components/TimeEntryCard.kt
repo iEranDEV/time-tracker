@@ -18,6 +18,7 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,13 +28,31 @@ import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import me.narei.time_tracker.ui.theme.spacing
+import java.time.Duration
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun TimeEntryCard(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    name: String,
+    startTime: LocalDateTime,
+    endTime: LocalDateTime
 ) {
 
     val cardShape = RoundedCornerShape(12.dp)
+
+    val hourFormatter = remember { DateTimeFormatter.ofPattern("HH:mm") }
+
+    val durationText = remember(startTime, endTime) {
+        val diff = Duration.between(startTime, endTime)
+        val hours = diff.toHours()
+        val minutes = diff.toMinutesPart()
+
+        "${hours}:${minutes.toString().padStart(2, '0')}"
+    }
+
+    val rangeText = remember(startTime, endTime) { "${startTime.format(hourFormatter)} - ${endTime.format(hourFormatter)}" }
 
     Row (
         modifier = modifier
@@ -63,7 +82,7 @@ fun TimeEntryCard(
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "Time entry card",
+                text = name,
                 fontWeight = FontWeight.Medium,
                 style = LocalTextStyle.current.copy(
                     platformStyle = PlatformTextStyle(includeFontPadding = false),
@@ -74,7 +93,7 @@ fun TimeEntryCard(
                 )
             )
             Text(
-                text = "10:30 - 12:00",
+                text = rangeText,
                 color = Color.Gray,
                 fontSize = 12.sp,
                 style = LocalTextStyle.current.copy(
@@ -88,7 +107,7 @@ fun TimeEntryCard(
         }
 
         Text(
-            text = "1:30h",
+            text = durationText,
             fontWeight = FontWeight.Bold
         )
     }

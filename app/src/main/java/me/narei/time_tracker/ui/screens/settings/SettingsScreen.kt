@@ -1,4 +1,4 @@
-package me.narei.time_tracker.ui.screens
+package me.narei.time_tracker.ui.screens.settings
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
