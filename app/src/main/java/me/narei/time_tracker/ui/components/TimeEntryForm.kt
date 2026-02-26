@@ -29,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import me.narei.time_tracker.data.TimeEntry
@@ -37,7 +38,7 @@ import me.narei.time_tracker.ui.theme.spacing
 @Composable
 fun TimeEntryForm(
     modifier: Modifier = Modifier,
-    timeEntry: TimeEntry? = null
+    entry: TimeEntry? = null
 ) {
 
     var value by remember { mutableStateOf("") }
@@ -58,8 +59,7 @@ fun TimeEntryForm(
             ) {
                 Box(
                     modifier = Modifier
-                        .height(50.dp)
-                        .width(50.dp)
+                        .size(50.dp)
                         .background(Color(0xFF2a9d8f), RoundedCornerShape(8.dp)),
                     contentAlignment = Alignment.Center
                 ) {
@@ -102,7 +102,8 @@ fun TimeEntryForm(
                 Box(
                     modifier = Modifier
                         .size(50.dp)
-                        .background(Color.Magenta, RoundedCornerShape(8.dp))
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(Color.Magenta)
                         .clickable {
 
                         },

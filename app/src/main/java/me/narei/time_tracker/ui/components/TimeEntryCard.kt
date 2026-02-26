@@ -27,32 +27,26 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import me.narei.time_tracker.data.TimeEntry
 import me.narei.time_tracker.ui.theme.spacing
+import me.narei.time_tracker.util.toLocalDateTime
 import java.time.Duration
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Composable
 fun TimeEntryCard(
     modifier: Modifier = Modifier,
-    name: String,
-    startTime: LocalDateTime,
-    endTime: LocalDateTime
+    entry: TimeEntry
 ) {
 
     val cardShape = RoundedCornerShape(12.dp)
 
     val hourFormatter = remember { DateTimeFormatter.ofPattern("HH:mm") }
 
-    val durationText = remember(startTime, endTime) {
-        val diff = Duration.between(startTime, endTime)
-        val hours = diff.toHours()
-        val minutes = diff.toMinutes()
+    val startTimeDate = entry.startTime.toLocalDateTime()
 
-        "${hours}:${minutes.toString().padStart(2, '0')}"
-    }
-
-    val rangeText = remember(startTime, endTime) { "${startTime.format(hourFormatter)} - ${endTime.format(hourFormatter)}" }
+    requireNotNull(entry.endTime) { "End time of entry of id ${entry.id} is null." }
+    val endTimeDate = entry.endTime.toLocalDateTime()
 
     Row (
         modifier = modifier
@@ -82,7 +76,7 @@ fun TimeEntryCard(
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = name,
+                text = entry.name,
                 fontWeight = FontWeight.Medium,
                 style = LocalTextStyle.current.copy(
                     platformStyle = PlatformTextStyle(includeFontPadding = false),
@@ -93,7 +87,7 @@ fun TimeEntryCard(
                 )
             )
             Text(
-                text = rangeText,
+                text = "${startTimeDate.format(hourFormatter)} - ${endTimeDate.format(hourFormatter)}",
                 color = Color.Gray,
                 fontSize = 12.sp,
                 style = LocalTextStyle.current.copy(
@@ -107,7 +101,9 @@ fun TimeEntryCard(
         }
 
         Text(
-            text = durationText,
+            text = Duration.between(startTimeDate, endTimeDate).let { diff ->
+            "${diff.toHours()}:${(diff.toMinutes() % 60).toString().padStart(2, '0')}"
+        },
             fontWeight = FontWeight.Bold
         )
     }

@@ -1,13 +1,15 @@
 package me.narei.time_tracker.ui.screens.time_list
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -23,10 +25,13 @@ import me.narei.time_tracker.ui.components.TimeEntryCard
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
 import me.narei.time_tracker.ui.components.TimeEntryForm
-import me.narei.time_tracker.util.toLocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -34,7 +39,10 @@ fun TimeListScreen(
     modifier: Modifier = Modifier,
     onNavigateToSettings: () -> Unit,
     timeEntries: List<TimeEntry> = emptyList(),
-    currentDate: LocalDate = LocalDate.now()
+    currentDate: LocalDate = LocalDate.now(),
+    activeTimeEntry: TimeEntry? = null,
+    deleteTimeEntry: (TimeEntry) -> Unit,
+    saveTimeEntry: (TimeEntry) -> Unit
 ) {
 
     Scaffold(
@@ -52,7 +60,7 @@ fun TimeListScreen(
             )
         },
         bottomBar = {
-            TimeEntryForm()
+            TimeEntryForm( entry = activeTimeEntry )
         }
     ) { innerPadding ->
 
@@ -63,9 +71,7 @@ fun TimeListScreen(
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
 
-            Text(
-                text = currentDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
-            )
+            Text( currentDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) )
 
             if (timeEntries.isEmpty()) {
                 Box(
@@ -79,18 +85,27 @@ fun TimeListScreen(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(timeEntries) { timeEntry ->
+                    items(
+                        items = timeEntries,
+                        key = { timeEntry -> timeEntry.id }
+                    ) { timeEntry ->
                         SwipeableWithActions(
-                            content = {
-                                TimeEntryCard(
-                                    name = timeEntry.name,
-                                    startTime = timeEntry.startTime.toLocalDateTime(),
-                                    endTime = timeEntry.endTime!!.toLocalDateTime()
-                                )
-                            },
+                            content = { TimeEntryCard( entry = timeEntry ) },
                             actions = {
-                                Button(onClick = { /*TODO*/ }) {
-                                    Text("Delete")
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxHeight()
+                                        .clip(RoundedCornerShape(12.dp))
+                                        .background(MaterialTheme.colorScheme.error)
+                                        .padding(horizontal = 12.dp)
+                                        .clickable { deleteTimeEntry(timeEntry) },
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Rounded.Delete,
+                                        contentDescription = "Delete time entry with id ${timeEntry.id}",
+                                        tint = MaterialTheme.colorScheme.onError
+                                    )
                                 }
                             }
                         )
