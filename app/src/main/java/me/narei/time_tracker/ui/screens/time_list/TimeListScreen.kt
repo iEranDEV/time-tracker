@@ -33,7 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import me.narei.time_tracker.ui.components.CalendarButtonWithPopup
-import me.narei.time_tracker.ui.components.TimeEntryForm
+import me.narei.time_tracker.ui.components.TimeEntryTimer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -74,7 +74,7 @@ fun TimeListScreen(
             )
         },
         bottomBar = {
-            TimeEntryForm(
+            TimeEntryTimer(
                 entry = activeTimeEntry,
                 saveTimeEntry = saveTimeEntry
             )
@@ -84,7 +84,7 @@ fun TimeListScreen(
         Column(
             modifier = modifier
                 .padding(innerPadding)
-                .padding(20.dp),
+                .padding(horizontal = 20.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
 
@@ -102,7 +102,7 @@ fun TimeListScreen(
                 ) {
                     items(
                         items = timeEntries,
-                        key = { timeEntry -> timeEntry.id }
+                        key = { timeEntry -> timeEntry.id!! }
                     ) { timeEntry ->
                         SwipeableWithActions(
                             content = { TimeEntryCard( entry = timeEntry ) },

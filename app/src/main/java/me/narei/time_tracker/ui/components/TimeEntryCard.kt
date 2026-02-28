@@ -102,8 +102,8 @@ fun TimeEntryCard(
 
         Text(
             text = Duration.between(startTimeDate, endTimeDate).let { diff ->
-            "${diff.toHours()}:${(diff.toMinutes() % 60).toString().padStart(2, '0')}"
-        },
+                "${diff.toHours()}:${(diff.toMinutes() % 60).toString().padStart(2, '0')}:${(diff.toSeconds() % 60).toString().padStart(2, '0')}"
+            },
             fontWeight = FontWeight.Bold
         )
     }

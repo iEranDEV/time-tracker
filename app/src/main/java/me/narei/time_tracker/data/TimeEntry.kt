@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class TimeEntry(
 
-    @PrimaryKey(autoGenerate = true) val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int? = null,
     val name: String,
     @ColumnInfo(name = "start_time") val startTime: Long,
     @ColumnInfo(name = "end_time") val endTime: Long? = null,

@@ -13,17 +13,19 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.rounded.PlayArrow
+import androidx.compose.material.icons.rounded.Stop
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -32,20 +34,43 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 import me.narei.time_tracker.data.TimeEntry
 import me.narei.time_tracker.ui.theme.spacing
 
 @Composable
-fun TimeEntryForm(
+fun TimeEntryTimer(
     modifier: Modifier = Modifier,
     entry: TimeEntry? = null,
     saveTimeEntry: (TimeEntry) -> Unit
 ) {
 
-    var value by remember { mutableStateOf("") }
+    val isRunning = entry !== null
+
+    var value by remember(entry?.id) { mutableStateOf(entry?.name ?: "") }
+
+    var currentDisplayTime by remember(entry?.id) {
+        mutableLongStateOf( if (entry != null)  System.currentTimeMillis() / 1000 - entry.startTime else 0L )
+    }
+
+    LaunchedEffect(isRunning, entry?.startTime) {
+        if (isRunning) {
+            while (true) {
+                currentDisplayTime = System.currentTimeMillis() / 1000 - entry.startTime
+                delay(200L)
+            }
+        }
+    }
+
+    LaunchedEffect(value) {
+        if (isRunning && value != entry.name) {
+            delay(1000L)
+            saveTimeEntry(entry.copy(name = value))
+        }
+    }
 
     Box(
-        modifier = modifier.fillMaxWidth().navigationBarsPadding().imePadding().background(Color.Red).padding(16.dp),
+        modifier = modifier.fillMaxWidth().navigationBarsPadding().imePadding().padding(16.dp),
     ) {
         Column(
             modifier = Modifier
@@ -97,7 +122,7 @@ fun TimeEntryForm(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.Bottom
             ) {
-                Text("czas")
+                Text("$currentDisplayTime")
 
                 Box(
                     modifier = Modifier
@@ -105,13 +130,23 @@ fun TimeEntryForm(
                         .clip(RoundedCornerShape(8.dp))
                         .background(Color.Magenta)
                         .clickable {
-
+                            if (isRunning) {
+                                saveTimeEntry(entry.copy(
+                                    name = value,
+                                    endTime = System.currentTimeMillis() / 1000
+                                ))
+                            } else {
+                                saveTimeEntry(TimeEntry(
+                                    name = value,
+                                    startTime = System.currentTimeMillis() / 1000
+                                ))
+                            }
                         },
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
-                        imageVector = Icons.Rounded.PlayArrow,
-                        contentDescription = "Start timer"
+                        imageVector = if (isRunning) Icons.Rounded.Stop else Icons.Rounded.PlayArrow,
+                        contentDescription = if (isRunning) "Stop timer" else "Start timer"
                     )
                 }
             }
