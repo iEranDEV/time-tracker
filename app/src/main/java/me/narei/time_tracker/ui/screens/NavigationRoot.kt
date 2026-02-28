@@ -40,6 +40,9 @@ fun NavigationRoot() {
                     onNavigateToSettings = { backstack.add(Route.Settings) },
                     timeEntries = timeEntries,
                     currentDate = currentDate,
+                    changeCurrentDate = { date ->
+                        viewModel.changeDate(date)
+                    },
                     activeTimeEntry = activeTimeEntry,
                     deleteTimeEntry = { entry ->
                         viewModel.deleteTimeEntry(entry)

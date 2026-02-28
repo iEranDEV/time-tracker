@@ -31,6 +31,8 @@ import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
+import me.narei.time_tracker.ui.components.CalendarButtonWithPopup
 import me.narei.time_tracker.ui.components.TimeEntryForm
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,6 +42,7 @@ fun TimeListScreen(
     onNavigateToSettings: () -> Unit,
     timeEntries: List<TimeEntry> = emptyList(),
     currentDate: LocalDate = LocalDate.now(),
+    changeCurrentDate: (LocalDate) -> Unit,
     activeTimeEntry: TimeEntry? = null,
     deleteTimeEntry: (TimeEntry) -> Unit,
     saveTimeEntry: (TimeEntry) -> Unit
@@ -48,8 +51,19 @@ fun TimeListScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("time-tracker-app") },
+                title = {
+                    Text(
+                        text = currentDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
+                        fontWeight = FontWeight.Medium
+                    )
+                },
                 actions = {
+                    CalendarButtonWithPopup(
+                        currentDate = currentDate,
+                        onDateSelected = { date ->
+                            changeCurrentDate(date)
+                        }
+                    )
                     IconButton( onClick = onNavigateToSettings ) {
                         Icon(
                             imageVector = Icons.Rounded.Settings,
@@ -60,7 +74,10 @@ fun TimeListScreen(
             )
         },
         bottomBar = {
-            TimeEntryForm( entry = activeTimeEntry )
+            TimeEntryForm(
+                entry = activeTimeEntry,
+                saveTimeEntry = saveTimeEntry
+            )
         }
     ) { innerPadding ->
 
@@ -70,8 +87,6 @@ fun TimeListScreen(
                 .padding(20.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-
-            Text( currentDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")) )
 
             if (timeEntries.isEmpty()) {
                 Box(

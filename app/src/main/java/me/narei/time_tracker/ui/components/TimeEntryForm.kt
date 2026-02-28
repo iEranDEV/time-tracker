@@ -38,14 +38,14 @@ import me.narei.time_tracker.ui.theme.spacing
 @Composable
 fun TimeEntryForm(
     modifier: Modifier = Modifier,
-    entry: TimeEntry? = null
+    entry: TimeEntry? = null,
+    saveTimeEntry: (TimeEntry) -> Unit
 ) {
 
     var value by remember { mutableStateOf("") }
 
-
     Box(
-        modifier = modifier.fillMaxWidth().navigationBarsPadding().imePadding().padding(16.dp),
+        modifier = modifier.fillMaxWidth().navigationBarsPadding().imePadding().background(Color.Red).padding(16.dp),
     ) {
         Column(
             modifier = Modifier
