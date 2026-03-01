@@ -27,6 +27,8 @@ import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import me.narei.time_tracker.data.TimeEntry
+import me.narei.time_tracker.data.category.Category
+import me.narei.time_tracker.ui.components.shared.CategoryIcon
 import me.narei.time_tracker.ui.theme.spacing
 import me.narei.time_tracker.util.toLocalDateTime
 import java.time.Duration
@@ -54,19 +56,8 @@ fun TimeEntryCard(
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Box(
-            modifier = Modifier
-                .height(40.dp)
-                .width(40.dp)
-                .background(Color(0xFF2a9d8f), MaterialTheme.shapes.small),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                imageVector = Icons.Default.ShoppingCart,
-                contentDescription = "Category icon",
-                tint = Color.White
-            )
-        }
+
+        CategoryIcon(category = Category.OTHER)
 
         Column(
             modifier = Modifier.fillMaxWidth().weight(1f).height(40.dp),

@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.Stop
 import androidx.compose.material3.Icon
@@ -36,6 +35,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import me.narei.time_tracker.data.TimeEntry
+import me.narei.time_tracker.data.category.Category
+import me.narei.time_tracker.ui.components.shared.CategoryIcon
 import me.narei.time_tracker.ui.theme.spacing
 
 @Composable
@@ -82,18 +83,8 @@ fun TimeEntryTimer(
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Box(
-                    modifier = Modifier
-                        .size(50.dp)
-                        .background(Color(0xFF2a9d8f), RoundedCornerShape(8.dp)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.ShoppingCart,
-                        contentDescription = "Category icon",
-                        tint = Color.White
-                    )
-                }
+                CategoryIcon(category = Category.OTHER)
+
                 BasicTextField(
                     value = value,
                     onValueChange = { value = it },

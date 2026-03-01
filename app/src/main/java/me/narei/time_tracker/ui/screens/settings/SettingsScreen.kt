@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBackIosNew
 import androidx.compose.material.icons.rounded.Delete
@@ -22,7 +24,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import me.narei.time_tracker.data.category.Category
+import me.narei.time_tracker.ui.components.settings.CategorySettingsItem
 import me.narei.time_tracker.ui.components.settings.SettingsItem
+import me.narei.time_tracker.ui.theme.spacing
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,6 +35,8 @@ fun SettingsScreen(
     modifier: Modifier = Modifier,
     onNavigateBack: () -> Unit
 ) {
+
+    val scrollState = rememberScrollState()
 
     Scaffold(
         topBar = {
@@ -49,14 +56,23 @@ fun SettingsScreen(
         Column(
             modifier = modifier
                 .padding(innerPadding)
-                .padding(20.dp),
+                .padding(20.dp)
+                .verticalScroll(scrollState),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
 
             SettingsItem(
                 title = "Categories",
                 description = "Customize your categories. Hide the ones you don't need."
-            ) { }
+            ) {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
+                ) {
+                    Category.entries.forEach { category ->
+                        CategorySettingsItem(category = category)
+                    }
+                }
+            }
 
             SettingsItem(
                 title = "Your data",
