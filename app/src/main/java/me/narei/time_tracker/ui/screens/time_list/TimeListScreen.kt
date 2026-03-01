@@ -25,7 +25,6 @@ import me.narei.time_tracker.ui.components.TimeEntryCard
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.MaterialTheme
@@ -34,6 +33,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import me.narei.time_tracker.ui.components.CalendarButtonWithPopup
 import me.narei.time_tracker.ui.components.TimeEntryTimer
+import me.narei.time_tracker.ui.theme.spacing
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -84,8 +84,8 @@ fun TimeListScreen(
         Column(
             modifier = modifier
                 .padding(innerPadding)
-                .padding(horizontal = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp)
+                .padding(horizontal = MaterialTheme.spacing.medium),
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium)
         ) {
 
             if (timeEntries.isEmpty()) {
@@ -98,7 +98,7 @@ fun TimeListScreen(
             } else {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
                 ) {
                     items(
                         items = timeEntries,
@@ -110,7 +110,7 @@ fun TimeListScreen(
                                 Box(
                                     modifier = Modifier
                                         .fillMaxHeight()
-                                        .clip(RoundedCornerShape(12.dp))
+                                        .clip(MaterialTheme.shapes.medium)
                                         .background(MaterialTheme.colorScheme.error)
                                         .padding(horizontal = 12.dp)
                                         .clickable { deleteTimeEntry(timeEntry) },

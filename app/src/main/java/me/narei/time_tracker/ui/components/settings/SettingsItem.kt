@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,10 +25,10 @@ fun SettingsItem(
 ) {
     Column(
         modifier = modifier.fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background, RoundedCornerShape(12.dp))
-            .border(1.dp, Color.LightGray, RoundedCornerShape(12.dp))
+            .background(MaterialTheme.colorScheme.background, MaterialTheme.shapes.medium)
+            .border(1.dp, Color.LightGray, MaterialTheme.shapes.medium)
             .padding(MaterialTheme.spacing.medium),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
     ) {
         Text(
             text = title,

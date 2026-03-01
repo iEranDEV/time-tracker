@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Icon
@@ -39,8 +38,6 @@ fun TimeEntryCard(
     entry: TimeEntry
 ) {
 
-    val cardShape = RoundedCornerShape(12.dp)
-
     val hourFormatter = remember { DateTimeFormatter.ofPattern("HH:mm") }
 
     val startTimeDate = entry.startTime.toLocalDateTime()
@@ -51,8 +48,8 @@ fun TimeEntryCard(
     Row (
         modifier = modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background, cardShape)
-            .border(1.dp, Color.LightGray, cardShape)
+            .background(MaterialTheme.colorScheme.background, MaterialTheme.shapes.medium)
+            .border(1.dp, Color.LightGray, MaterialTheme.shapes.medium)
             .padding(MaterialTheme.spacing.medium),
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
         verticalAlignment = Alignment.CenterVertically
@@ -61,7 +58,7 @@ fun TimeEntryCard(
             modifier = Modifier
                 .height(40.dp)
                 .width(40.dp)
-                .background(Color(0xFF2a9d8f), RoundedCornerShape(8.dp)),
+                .background(Color(0xFF2a9d8f), MaterialTheme.shapes.small),
             contentAlignment = Alignment.Center
         ) {
             Icon(
