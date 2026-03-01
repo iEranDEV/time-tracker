@@ -53,7 +53,9 @@ fun NavigationRoot() {
                 )
             }
             entry<Route.Settings> {
-                SettingsScreen()
+                SettingsScreen(
+                    onNavigateBack = { backstack.removeLast() }
+                )
             }
         }
     )

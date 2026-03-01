@@ -20,7 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import me.narei.time_tracker.data.TimeEntry
-import me.narei.time_tracker.ui.components.SwipeableWithActions
+import me.narei.time_tracker.ui.components.shared.SwipeableWithActions
 import me.narei.time_tracker.ui.components.TimeEntryCard
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

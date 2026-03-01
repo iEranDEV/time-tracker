@@ -1,4 +1,4 @@
-package me.narei.time_tracker.ui.components
+package me.narei.time_tracker.ui.components.shared
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxHeight

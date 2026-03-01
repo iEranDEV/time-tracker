@@ -1,4 +1,4 @@
-package me.narei.time_tracker.ui.components
+package me.narei.time_tracker.ui.components.shared
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures

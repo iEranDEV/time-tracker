@@ -64,8 +64,7 @@ class TimeListViewModel(
         fun provideFactory(context: Context): ViewModelProvider.Factory =
             object : ViewModelProvider.Factory {
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    // Mając kontekst, możemy normalnie stworzyć bazę
-                    val dao = AppDatabase.getDatabase(context).timeEntryDao()
+                    val dao = AppDatabase.getDatabase(context.applicationContext).timeEntryDao()
 
                     @Suppress("UNCHECKED_CAST")
                     return TimeListViewModel(dao) as T
