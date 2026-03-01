@@ -13,23 +13,35 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = PrimaryGreen,
+    onPrimary = Color.White,
+    secondary = SecondaryGreen,
+    onSecondary = Color.White,
+    onBackground = TextTitleDark,
+    onSurface = TextTitleDark,
+    onSurfaceVariant = TextBodyDark,
+    error = ErrorDark,
+    onError = Color.White,
+    outline = BorderDark
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40,
+    primary = PrimaryGreen,
+    onPrimary = Color.White,
+    secondary = SecondaryGreen,
+    onSecondary = Color.White,
     background = Color.White,
+    onBackground = TextTitle,
     surface = Color.White,
-    error = Color(0xFFFDF1F0),
-    onError = Color(0xFFE87969)
+    onSurface = TextTitle,
+    onSurfaceVariant = TextBody,
+    error = Error,
+    onError = ErrorText,
+    outline = Border
 )
 
 @Composable
-fun TimetrackerTheme(
+fun TimeTrackerTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit

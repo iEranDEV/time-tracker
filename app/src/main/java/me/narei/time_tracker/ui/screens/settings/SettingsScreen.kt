@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBackIosNew
@@ -79,9 +78,9 @@ fun SettingsScreen(
         Column(
             modifier = modifier
                 .padding(innerPadding)
-                .padding(20.dp)
+                .padding(MaterialTheme.spacing.medium)
                 .verticalScroll(scrollState),
-            verticalArrangement = Arrangement.spacedBy(20.dp)
+            verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium)
         ) {
 
             SettingsItem(
@@ -128,7 +127,7 @@ fun SettingsScreen(
                     onClick = { showDeleteDialog = true },
                     modifier = Modifier
                         .fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp),
+                    shape = MaterialTheme.shapes.medium,
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.error,
                         contentColor = MaterialTheme.colorScheme.onError
@@ -152,6 +151,7 @@ fun SettingsScreen(
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },
             title = { Text("Delete all data?") },
+            containerColor = MaterialTheme.colorScheme.surface,
             text = { Text("This will permanently delete all your tracked time and settings. This action cannot be undone.") },
             confirmButton = {
                 TextButton(
@@ -173,7 +173,7 @@ fun SettingsScreen(
                 TextButton(
                     onClick = { showDeleteDialog = false }
                 ) {
-                    Text("Cancel", color = Color.Gray)
+                    Text("Cancel", color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
         )

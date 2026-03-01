@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
@@ -36,12 +37,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import me.narei.time_tracker.data.TimeEntry
 import me.narei.time_tracker.data.category.Category
 import me.narei.time_tracker.ui.components.shared.CategoryIcon
 import me.narei.time_tracker.ui.theme.spacing
+import me.narei.time_tracker.util.formatDurationString
 import kotlin.math.exp
 
 @Composable
@@ -96,17 +99,17 @@ fun TimeEntryTimer(
     ) {
         Column(
             modifier = Modifier
-                .background(MaterialTheme.colorScheme.background, RoundedCornerShape(12.dp))
-                .border(1.dp, Color.LightGray, RoundedCornerShape(12.dp))
+                .background(MaterialTheme.colorScheme.background, MaterialTheme.shapes.medium)
+                .border(1.dp, MaterialTheme.colorScheme.outline, MaterialTheme.shapes.medium)
                 .padding(MaterialTheme.spacing.small),
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small),
         ) {
             Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
             ) {
                 Box {
                     Box(modifier = Modifier
-                        .clip(RoundedCornerShape(8.dp))
+                        .clip(MaterialTheme.shapes.small)
                         .clickable {
                             if (Category.entries.size - (hiddenCategories?.size ?: 0) > 1) expanded = true
                         }
@@ -114,18 +117,17 @@ fun TimeEntryTimer(
                         CategoryIcon(category = categoryValue)
                     }
 
-                    DropdownMenu(
-                        expanded = expanded,
-                        onDismissRequest = { expanded = false }
-                    ) {
-                        if (hiddenCategories == null) {
-                            Box(
-                                modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                CircularProgressIndicator()
-                            }
-                        } else {
+                    if (hiddenCategories != null) {
+                        DropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false },
+                            offset = DpOffset(x = 0.dp, y = -MaterialTheme.spacing.small),
+                            shape = MaterialTheme.shapes.medium,
+                            modifier = Modifier
+                                .border(1.dp, MaterialTheme.colorScheme.outline, MaterialTheme.shapes.medium)
+                                .width(250.dp),
+                            containerColor = MaterialTheme.colorScheme.surface,
+                        ) {
                             Category.entries.forEach { category ->
                                 if (!hiddenCategories.contains(category)) {
                                     DropdownMenuItem(
@@ -146,17 +148,20 @@ fun TimeEntryTimer(
                     value = nameValue,
                     onValueChange = { nameValue = it },
                     singleLine = true,
+                    textStyle = MaterialTheme.typography.bodyLarge.copy(
+                        color = MaterialTheme.colorScheme.onSurface
+                    ),
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(40.dp)
-                        .background(Color(0xFFF5F5F5), RoundedCornerShape(8.dp))
-                        .padding(horizontal = 12.dp, vertical = 8.dp),
+                        .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f), MaterialTheme.shapes.small)
+                        .padding(horizontal = MaterialTheme.spacing.medium, vertical = MaterialTheme.spacing.small),
                     decorationBox = { innerTextField ->
                         Box(contentAlignment = Alignment.CenterStart) {
                             if (nameValue.isEmpty()) {
                                 Text(
-                                    text = "Write name...",
-                                    color = Color.LightGray,
+                                    text = "I am working on...",
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 )
                             }
                             innerTextField()
@@ -170,12 +175,15 @@ fun TimeEntryTimer(
                 horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large, Alignment.End),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(String.format("%02d:%02d:%02d", elapsedSeconds / 3600, (elapsedSeconds % 3600) / 60, elapsedSeconds % 60))
+                Text(
+                    text = formatDurationString(elapsedSeconds),
+                    style = MaterialTheme.typography.bodyLarge
+                )
 
                 Box(
                     modifier = Modifier
                         .size(40.dp)
-                        .clip(RoundedCornerShape(8.dp))
+                        .clip(MaterialTheme.shapes.small)
                         .background(MaterialTheme.colorScheme.primary)
                         .clickable {
                             if (isRunning) {

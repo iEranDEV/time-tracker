@@ -11,10 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import me.narei.time_tracker.ui.theme.spacing
 
 @Composable
@@ -27,21 +24,20 @@ fun SettingsItem(
     Column(
         modifier = modifier.fillMaxWidth()
             .background(MaterialTheme.colorScheme.background, MaterialTheme.shapes.medium)
-            .border(1.dp, Color.LightGray, MaterialTheme.shapes.medium)
+            .border(1.dp, MaterialTheme.colorScheme.outline, MaterialTheme.shapes.medium)
             .padding(MaterialTheme.spacing.medium),
-        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.extraSmall)
     ) {
         Text(
             text = title,
-            fontWeight = FontWeight.Medium
+            style = MaterialTheme.typography.titleMedium
         )
 
         if (description != null) {
             Text(
                 text = description,
-                fontSize = 12.sp,
-                lineHeight = 16.sp,
-                color = Color.Gray
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
 

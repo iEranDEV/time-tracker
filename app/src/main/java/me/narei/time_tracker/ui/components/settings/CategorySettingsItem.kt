@@ -37,7 +37,7 @@ fun CategorySettingsItem(
             .alpha(if (isHidden) 0.5f else 1f)
             .clip(MaterialTheme.shapes.small)
             .clickable { toggleHidden() }
-            .padding(2.dp),
+            .padding(MaterialTheme.spacing.extraSmall),
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -46,7 +46,8 @@ fun CategorySettingsItem(
 
         Text(
             modifier = Modifier.fillMaxWidth().weight(1f),
-            text = category.displayName
+            text = category.displayName,
+            style = MaterialTheme.typography.titleMedium
         )
 
         Box(

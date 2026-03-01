@@ -18,7 +18,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import me.narei.time_tracker.data.TimeEntry
 import me.narei.time_tracker.ui.components.shared.SwipeableWithActions
 import me.narei.time_tracker.ui.components.TimeEntryCard
@@ -55,7 +54,7 @@ fun TimeListScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = currentDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy")),
+                        text = currentDate.format(DateTimeFormatter.ofPattern("EEE dd.MM.yyyy")),
                         fontWeight = FontWeight.Medium
                     )
                 },
@@ -69,7 +68,8 @@ fun TimeListScreen(
                     IconButton( onClick = onNavigateToSettings ) {
                         Icon(
                             imageVector = Icons.Rounded.Settings,
-                            contentDescription = "Go to settings"
+                            contentDescription = "Go to settings",
+                            tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
                 }
@@ -115,7 +115,7 @@ fun TimeListScreen(
                                         .fillMaxHeight()
                                         .clip(MaterialTheme.shapes.medium)
                                         .background(MaterialTheme.colorScheme.error)
-                                        .padding(horizontal = 12.dp)
+                                        .padding(horizontal = MaterialTheme.spacing.medium)
                                         .clickable { deleteTimeEntry(timeEntry) },
                                     contentAlignment = Alignment.Center
                                 ) {

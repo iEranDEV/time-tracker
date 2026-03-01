@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import me.narei.time_tracker.data.TimeEntry
 import me.narei.time_tracker.ui.components.shared.CategoryIcon
 import me.narei.time_tracker.ui.theme.spacing
+import me.narei.time_tracker.util.formatDurationString
 import me.narei.time_tracker.util.toLocalDateTime
 import java.time.Duration
 import java.time.format.DateTimeFormatter
@@ -45,7 +46,7 @@ fun TimeEntryCard(
         modifier = modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.background, MaterialTheme.shapes.medium)
-            .border(1.dp, Color.LightGray, MaterialTheme.shapes.medium)
+            .border(1.dp, MaterialTheme.colorScheme.outline, MaterialTheme.shapes.medium)
             .padding(MaterialTheme.spacing.medium),
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
         verticalAlignment = Alignment.CenterVertically
@@ -54,39 +55,23 @@ fun TimeEntryCard(
         CategoryIcon(category = entry.category)
 
         Column(
-            modifier = Modifier.fillMaxWidth().weight(1f).height(40.dp),
+            modifier = Modifier.fillMaxWidth().weight(1f),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
                 text = entry.name,
-                fontWeight = FontWeight.Medium,
-                style = LocalTextStyle.current.copy(
-                    platformStyle = PlatformTextStyle(includeFontPadding = false),
-                    lineHeightStyle = LineHeightStyle(
-                        alignment = LineHeightStyle.Alignment.Center,
-                        trim = LineHeightStyle.Trim.Both
-                    )
-                )
+                style = MaterialTheme.typography.titleMedium
             )
             Text(
                 text = "${startTimeDate.format(hourFormatter)} - ${endTimeDate.format(hourFormatter)}",
-                color = Color.Gray,
-                fontSize = 12.sp,
-                style = LocalTextStyle.current.copy(
-                    platformStyle = PlatformTextStyle(includeFontPadding = false),
-                    lineHeightStyle = LineHeightStyle(
-                        alignment = LineHeightStyle.Alignment.Center,
-                        trim = LineHeightStyle.Trim.Both
-                    )
-                )
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
 
         Text(
-            text = Duration.between(startTimeDate, endTimeDate).let { diff ->
-                "${diff.toHours()}:${(diff.toMinutes() % 60).toString().padStart(2, '0')}:${(diff.seconds % 60).toString().padStart(2, '0')}"
-            },
-            fontWeight = FontWeight.Bold
+            text = formatDurationString(Duration.between(startTimeDate, endTimeDate).seconds),
+            style = MaterialTheme.typography.titleMedium
         )
     }
 

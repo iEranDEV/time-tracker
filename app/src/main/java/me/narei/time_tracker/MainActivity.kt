@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import me.narei.time_tracker.ui.screens.NavigationRoot
-import me.narei.time_tracker.ui.theme.TimetrackerTheme
+import me.narei.time_tracker.ui.theme.TimeTrackerTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,7 +14,7 @@ class MainActivity : ComponentActivity() {
 
 
         setContent {
-            TimetrackerTheme {
+            TimeTrackerTheme {
                 NavigationRoot()
             }
         }

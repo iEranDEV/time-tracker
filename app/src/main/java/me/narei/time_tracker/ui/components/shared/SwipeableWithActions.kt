@@ -49,7 +49,7 @@ fun SwipeableWithActions(
         ) {
             Box(
                 modifier = Modifier
-                    .padding(start = MaterialTheme.spacing.medium)
+                    .padding(start = MaterialTheme.spacing.small)
             ) {
                 actions()
             }
