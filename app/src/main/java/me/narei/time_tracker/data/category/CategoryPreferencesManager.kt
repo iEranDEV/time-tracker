@@ -36,4 +36,10 @@ class CategoryPreferencesManager(private val context: Context) {
         }
     }
 
+    suspend fun resetHiddenCategories() {
+        context.dataStore.edit { preferences ->
+            preferences[HIDDEN_CATEGORIES_KEY] = emptySet()
+        }
+    }
+
 }

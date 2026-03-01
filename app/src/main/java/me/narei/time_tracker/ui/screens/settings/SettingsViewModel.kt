@@ -28,4 +28,11 @@ class SettingsViewModel(
         }
     }
 
+    fun deleteData() {
+        viewModelScope.launch {
+            timeEntryDao.deleteAllEntries()
+            categoryPreferencesManager.resetHiddenCategories()
+        }
+    }
+
 }

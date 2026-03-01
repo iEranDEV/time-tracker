@@ -54,7 +54,8 @@ fun NavigationRoot() {
                 SettingsScreen(
                     onNavigateBack = { backstack.removeLast() },
                     hiddenCategories = hiddenCategories,
-                    toggleCategory = { category -> viewModel.toggleCategory(category) }
+                    toggleCategory = { category -> viewModel.toggleCategory(category) },
+                    deleteData = { viewModel.deleteData() }
                 )
             }
         }

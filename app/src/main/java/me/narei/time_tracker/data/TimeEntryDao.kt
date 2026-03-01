@@ -17,6 +17,9 @@ abstract class TimeEntryDao {
     @Delete
     abstract suspend fun deleteTimeEntry(timeEntry: TimeEntry)
 
+    @Query("DELETE FROM TimeEntry")
+    abstract suspend fun deleteAllEntries()
+
     @Query("SELECT * FROM TimeEntry WHERE end_time IS NULL LIMIT 1")
     abstract fun getActiveTimeEntry(): Flow<TimeEntry?>
 
