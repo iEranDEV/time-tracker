@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import me.narei.time_tracker.data.TimeEntry
 import me.narei.time_tracker.data.TimeEntryDao
+import me.narei.time_tracker.data.category.Category
 import me.narei.time_tracker.data.category.CategoryPreferencesManager
 import java.time.LocalDate
 
@@ -22,6 +23,13 @@ class TimeListViewModel(
 
     private val _currentDate = MutableStateFlow(LocalDate.now())
     val currentDate: StateFlow<LocalDate> = _currentDate.asStateFlow()
+
+    val hiddenCategories: StateFlow<Set<Category>?> = categoryPreferencesManager.hiddenCategoriesFlow
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = null
+        )
 
     val activeTimeEntry: StateFlow<TimeEntry?> = timeEntryDao.getActiveTimeEntry()
         .stateIn(

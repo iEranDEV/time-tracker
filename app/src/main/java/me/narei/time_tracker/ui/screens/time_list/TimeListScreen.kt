@@ -31,6 +31,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
+import me.narei.time_tracker.data.category.Category
 import me.narei.time_tracker.ui.components.CalendarButtonWithPopup
 import me.narei.time_tracker.ui.components.TimeEntryTimer
 import me.narei.time_tracker.ui.theme.spacing
@@ -45,7 +46,8 @@ fun TimeListScreen(
     changeCurrentDate: (LocalDate) -> Unit,
     activeTimeEntry: TimeEntry? = null,
     deleteTimeEntry: (TimeEntry) -> Unit,
-    saveTimeEntry: (TimeEntry) -> Unit
+    saveTimeEntry: (TimeEntry) -> Unit,
+    hiddenCategories: Set<Category>? = null
 ) {
 
     Scaffold(
@@ -76,7 +78,8 @@ fun TimeListScreen(
         bottomBar = {
             TimeEntryTimer(
                 entry = activeTimeEntry,
-                saveTimeEntry = saveTimeEntry
+                saveTimeEntry = saveTimeEntry,
+                hiddenCategories = hiddenCategories
             )
         }
     ) { innerPadding ->

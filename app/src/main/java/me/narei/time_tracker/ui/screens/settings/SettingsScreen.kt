@@ -100,10 +100,20 @@ fun SettingsScreen(
                         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
                     ) {
                         Category.entries.forEach { category ->
+                            val isHidden = hiddenCategories.contains(category)
                             CategorySettingsItem(
                                 category = category,
-                                isHidden = hiddenCategories.contains(category),
-                                toggleHidden = { toggleCategory(category) }
+                                isHidden = isHidden,
+                                toggleHidden = {
+                                    if (!isHidden && hiddenCategories.size >= Category.entries.size - 1) {
+                                        coroutineScope.launch {
+                                            snackbarHostState.currentSnackbarData?.dismiss()
+                                            snackbarHostState.showSnackbar("You must have at least one active category.")
+                                        }
+                                    } else {
+                                        toggleCategory(category)
+                                    }
+                                }
                             )
                         }
                     }

@@ -34,6 +34,7 @@ fun NavigationRoot() {
                 val currentDate by viewModel.currentDate.collectAsStateWithLifecycle()
                 val timeEntries by viewModel.timeEntries.collectAsStateWithLifecycle()
                 val activeTimeEntry by viewModel.activeTimeEntry.collectAsStateWithLifecycle()
+                val hiddenCategories by viewModel.hiddenCategories.collectAsStateWithLifecycle()
 
                 TimeListScreen(
                     onNavigateToSettings = { backstack.add(Route.Settings) },
@@ -42,7 +43,8 @@ fun NavigationRoot() {
                     changeCurrentDate = { date -> viewModel.changeDate(date) },
                     activeTimeEntry = activeTimeEntry,
                     deleteTimeEntry = { entry -> viewModel.deleteTimeEntry(entry) },
-                    saveTimeEntry = { entry -> viewModel.saveTimeEntry(entry) }
+                    saveTimeEntry = { entry -> viewModel.saveTimeEntry(entry) },
+                    hiddenCategories = hiddenCategories
                 )
             }
             entry<Route.Settings> {

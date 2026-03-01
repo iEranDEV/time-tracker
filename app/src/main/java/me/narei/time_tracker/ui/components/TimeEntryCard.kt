@@ -3,16 +3,11 @@ package me.narei.time_tracker.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -27,7 +22,6 @@ import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import me.narei.time_tracker.data.TimeEntry
-import me.narei.time_tracker.data.category.Category
 import me.narei.time_tracker.ui.components.shared.CategoryIcon
 import me.narei.time_tracker.ui.theme.spacing
 import me.narei.time_tracker.util.toLocalDateTime
@@ -57,7 +51,7 @@ fun TimeEntryCard(
         verticalAlignment = Alignment.CenterVertically
     ) {
 
-        CategoryIcon(category = Category.OTHER)
+        CategoryIcon(category = entry.category)
 
         Column(
             modifier = Modifier.fillMaxWidth().weight(1f).height(40.dp),
