@@ -2,6 +2,8 @@ package me.narei.time_tracker.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,12 +18,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import me.narei.time_tracker.data.TimeEntry
+import me.narei.time_tracker.data.category.Category
 import me.narei.time_tracker.ui.components.shared.CategoryIcon
 import me.narei.time_tracker.ui.theme.spacing
 import me.narei.time_tracker.util.formatDurationString
@@ -32,7 +36,8 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun TimeEntryCard(
     modifier: Modifier = Modifier,
-    entry: TimeEntry
+    entry: TimeEntry,
+    setDraft: (String, Category) -> Unit
 ) {
 
     val hourFormatter = remember { DateTimeFormatter.ofPattern("HH:mm") }
@@ -45,6 +50,11 @@ fun TimeEntryCard(
     Row (
         modifier = modifier
             .fillMaxWidth()
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onDoubleTap = { setDraft(entry.name, entry.category) }
+                )
+            }
             .background(MaterialTheme.colorScheme.background, MaterialTheme.shapes.medium)
             .border(1.dp, MaterialTheme.colorScheme.outline, MaterialTheme.shapes.medium)
             .padding(MaterialTheme.spacing.medium),

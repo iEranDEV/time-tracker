@@ -52,21 +52,25 @@ fun TimeEntryTimer(
     modifier: Modifier = Modifier,
     entry: TimeEntry? = null,
     saveTimeEntry: (TimeEntry) -> Unit,
-    hiddenCategories: Set<Category>? = null
+    hiddenCategories: Set<Category>? = null,
+    draftName: String = "",
+    draftCategory: Category = Category.OTHER
 ) {
 
     val isRunning = entry !== null
-
     var expanded by remember { mutableStateOf(false) }
 
-    var nameValue by remember(entry?.id) { mutableStateOf(entry?.name ?: "") }
-    var categoryValue by remember(entry?.id) { mutableStateOf(entry?.category ?: run {
-        if (hiddenCategories != null && hiddenCategories.contains(Category.OTHER)) {
-            Category.entries.filterNot { it in hiddenCategories }.randomOrNull() ?: Category.OTHER
-        } else {
-            Category.OTHER
+    var nameValue by remember(entry?.id, entry?.name) { mutableStateOf(entry?.name ?: "") }
+    var categoryValue by remember(entry?.id, entry?.category) {
+        mutableStateOf(entry?.category ?: draftCategory)
+    }
+
+    LaunchedEffect(draftName, draftCategory) {
+        if (!isRunning) {
+            nameValue = draftName
+            categoryValue = draftCategory
         }
-    }) }
+    }
 
     var elapsedSeconds by remember(entry?.id) {
         mutableLongStateOf( if (entry != null)  System.currentTimeMillis() / 1000 - entry.startTime else 0L )
@@ -78,12 +82,6 @@ fun TimeEntryTimer(
                 elapsedSeconds = System.currentTimeMillis() / 1000 - entry.startTime
                 delay(200L)
             }
-        }
-    }
-
-    LaunchedEffect(hiddenCategories) {
-        if (hiddenCategories != null && hiddenCategories.contains(categoryValue)) {
-            categoryValue = Category.entries.filterNot { it in hiddenCategories }.randomOrNull() ?: Category.OTHER
         }
     }
 

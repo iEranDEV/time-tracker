@@ -18,51 +18,47 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import me.narei.time_tracker.data.TimeEntry
 import me.narei.time_tracker.ui.components.shared.SwipeableWithActions
 import me.narei.time_tracker.ui.components.TimeEntryCard
-import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
-import me.narei.time_tracker.data.category.Category
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import me.narei.time_tracker.ui.components.CalendarButtonWithPopup
 import me.narei.time_tracker.ui.components.TimeEntryTimer
 import me.narei.time_tracker.ui.theme.spacing
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimeListScreen(
     modifier: Modifier = Modifier,
+    viewModel: TimeListViewModel = koinViewModel(),
     onNavigateToSettings: () -> Unit,
-    timeEntries: List<TimeEntry> = emptyList(),
-    currentDate: LocalDate = LocalDate.now(),
-    changeCurrentDate: (LocalDate) -> Unit,
-    activeTimeEntry: TimeEntry? = null,
-    deleteTimeEntry: (TimeEntry) -> Unit,
-    saveTimeEntry: (TimeEntry) -> Unit,
-    hiddenCategories: Set<Category>? = null
 ) {
+
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = currentDate.format(DateTimeFormatter.ofPattern("EEE dd.MM.yyyy")),
+                        text = uiState.currentDate.format(DateTimeFormatter.ofPattern("EEE dd.MM.yyyy")),
                         fontWeight = FontWeight.Medium
                     )
                 },
                 actions = {
                     CalendarButtonWithPopup(
-                        currentDate = currentDate,
+                        currentDate = uiState.currentDate,
                         onDateSelected = { date ->
-                            changeCurrentDate(date)
+                            viewModel.changeDate(date)
                         }
                     )
                     IconButton( onClick = onNavigateToSettings ) {
@@ -77,9 +73,11 @@ fun TimeListScreen(
         },
         bottomBar = {
             TimeEntryTimer(
-                entry = activeTimeEntry,
-                saveTimeEntry = saveTimeEntry,
-                hiddenCategories = hiddenCategories
+                entry = uiState.activeTimeEntry,
+                saveTimeEntry = viewModel::saveTimeEntry,
+                hiddenCategories = uiState.hiddenCategories,
+                draftName = uiState.draftName,
+                draftCategory = uiState.draftCategory
             )
         }
     ) { innerPadding ->
@@ -91,7 +89,7 @@ fun TimeListScreen(
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium)
         ) {
 
-            if (timeEntries.isEmpty()) {
+            if (uiState.timeEntries.isEmpty()) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
@@ -104,11 +102,16 @@ fun TimeListScreen(
                     verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
                 ) {
                     items(
-                        items = timeEntries,
+                        items = uiState.timeEntries,
                         key = { timeEntry -> timeEntry.id!! }
                     ) { timeEntry ->
                         SwipeableWithActions(
-                            content = { TimeEntryCard( entry = timeEntry ) },
+                            content = {
+                                TimeEntryCard(
+                                    entry = timeEntry,
+                                    setDraft = viewModel::setDraft
+                                )
+                            },
                             actions = {
                                 Box(
                                     modifier = Modifier
@@ -116,7 +119,7 @@ fun TimeListScreen(
                                         .clip(MaterialTheme.shapes.medium)
                                         .background(MaterialTheme.colorScheme.error)
                                         .padding(horizontal = MaterialTheme.spacing.medium)
-                                        .clickable { deleteTimeEntry(timeEntry) },
+                                        .clickable { viewModel.deleteTimeEntry(timeEntry) },
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Icon(

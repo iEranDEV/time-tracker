@@ -36,7 +36,9 @@ fun CategorySettingsItem(
             .fillMaxWidth()
             .alpha(if (isHidden) 0.5f else 1f)
             .clip(MaterialTheme.shapes.small)
-            .clickable { toggleHidden() }
+            .clickable {
+                if (category != Category.OTHER) toggleHidden()
+            }
             .padding(MaterialTheme.spacing.extraSmall),
         horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium),
         verticalAlignment = Alignment.CenterVertically,
@@ -50,24 +52,26 @@ fun CategorySettingsItem(
             style = MaterialTheme.typography.titleMedium
         )
 
-        Box(
-            modifier = Modifier
-                .size(40.dp)
-                .clip(MaterialTheme.shapes.small),
-            contentAlignment = Alignment.Center
-        ) {
-            if (isHidden) {
-                Icon(
-                    imageVector = Icons.Outlined.VisibilityOff,
-                    contentDescription = "Show category",
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            } else {
-                Icon(
-                    imageVector = Icons.Outlined.Visibility,
-                    contentDescription = "Hide category",
-                    tint = MaterialTheme.colorScheme.primary
-                )
+        if (category != Category.OTHER) {
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(MaterialTheme.shapes.small),
+                contentAlignment = Alignment.Center
+            ) {
+                if (isHidden) {
+                    Icon(
+                        imageVector = Icons.Outlined.VisibilityOff,
+                        contentDescription = "Show category",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                } else {
+                    Icon(
+                        imageVector = Icons.Outlined.Visibility,
+                        contentDescription = "Hide category",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
         }
     }
